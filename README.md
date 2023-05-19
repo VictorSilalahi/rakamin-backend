@@ -67,12 +67,11 @@ python run.py
 ## Daftar Folder dan File
 
 * run.py ---> file utama untuk menjalankan aplikasi
-* app\login\login.py ---> file routing untuk menampilkan halaman login.html
-* app\register\register.py ---> file routing untuk menampilkan halaman register.html
-* app\todos\chat.py ---> file routing untuk menampilkan halaman chat.html
-* app\static\ ---> folder untuk menyimpan css, javascript dan images
-* app\templates\ ---> folder untuk menyimpan halaman-halaman html
-
+* app\models\ ---> folder berisi model-model struktur tabel database
+* app\routes\ ---> folder berisi file routing untuk seluruh endpoint backend
+* app\utils\ ---> folder untuk koneksi database dan konfigurasi log file
+* app\logs\ ---> folder untuk catatan logs
+* app\events\ ---> folder untuk ...
 
 ## Authors
 
