@@ -2,7 +2,7 @@ from flask_restx import Resource
 from flask import request
 from ..models.member import Member
 from ..utils.dbo import db
-from werkzeug.security import check_password_hash
+
 from flask_jwt_extended import create_access_token, create_refresh_token
 from datetime import timedelta
 

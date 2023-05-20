@@ -5,7 +5,13 @@ from flask_jwt_extended import JWTManager
 
 from flask_migrate import Migrate
 
+from waitress import serve
+
+from dotenv import load_dotenv
+import os
+
 from app.utils import dbo
+from app.utils.socketio import sio
 
 from app.routes.admin import AdminRoute
 from app.routes.members_for_admin import MembersAdminRoute
@@ -17,10 +23,6 @@ from app.routes.members import MembersRoute
 from app.routes.member_validate import MemberValidateRoute
 from app.routes.my_rooms import MyRoom
 
-from waitress import serve
-
-from dotenv import load_dotenv
-import os
 
 m = Migrate()
 
@@ -60,16 +62,25 @@ def create_app():
 
     CORS(app)
 
-    return app
+    sio.init_app(app)
+    from app.events import socketio_event_handler
+
+    return app, sio
 
 
 if __name__ == "__main__":
-    app = create_app()
+    app, sio = create_app()
     if os.getenv("RAKAMIN_MODE") == "dev":
-        app.run(
-            host=os.getenv("RAKAMIN_HOST"), port=os.getenv("RAKAMIN_PORT"), debug=True
+        # app.run(
+        #     host=os.getenv("RAKAMIN_HOST"), port=os.getenv("RAKAMIN_PORT"), debug=True
+        # )
+        sio.run(
+            app, host=os.getenv("RAKAMIN_HOST"), port=os.getenv("RAKAMIN_PORT"), debug=True
         )
     else:
-        serve(
+        # serve(
+        #     app, host=os.getenv("RAKAMIN_HOST"), port=os.getenv("RAKAMIN_PORT")
+        # )
+        sio.run(
             app, host=os.getenv("RAKAMIN_HOST"), port=os.getenv("RAKAMIN_PORT")
         )
