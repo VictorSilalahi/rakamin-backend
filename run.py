@@ -62,7 +62,7 @@ def create_app():
 
     CORS(app)
 
-    sio.init_app(app)
+    sio.init_app(app, cors_allowed_origins="*")
     from app.events import socketio_event_handler
 
     return app, sio
