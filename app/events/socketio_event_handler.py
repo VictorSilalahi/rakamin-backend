@@ -1,8 +1,7 @@
 from flask_socketio import emit, join_room, leave_room, send
 
 from run import sio
-# from run import app
-sios = []
+
 
 @sio.on("connect")
 def new_connection(data):
