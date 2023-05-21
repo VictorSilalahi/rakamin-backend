@@ -26,6 +26,7 @@ from app.routes.my_rooms import MyRoom
 
 m = Migrate()
 
+
 def create_app():
     app = Flask(__name__)
 
@@ -33,7 +34,16 @@ def create_app():
 
     app.config["JWT_SECRET_KEY"] = os.getenv("RAKAMIN_JWT_SECRET_KEY")
     app.config["SQLALCHEMY_DATABASE_URI"] = (
-        "postgresql://" + os.getenv("RAKAMIN_DB_USERNAME")+":"+os.getenv("RAKAMIN_DB_PASSWORD")+"@"+os.getenv("RAKAMIN_DB_HOST")+":"+os.getenv("RAKAMIN_DB_PORT")+"/"+os.getenv("RAKAMIN_DB_NAME")
+        "postgresql://"
+        + os.getenv("RAKAMIN_DB_USERNAME")
+        + ":"
+        + os.getenv("RAKAMIN_DB_PASSWORD")
+        + "@"
+        + os.getenv("RAKAMIN_DB_HOST")
+        + ":"
+        + os.getenv("RAKAMIN_DB_PORT")
+        + "/"
+        + os.getenv("RAKAMIN_DB_NAME")
     )
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     # app.config['UPLOAD_FOLDER'] = os.getenv("APP_UPLOAD_FOLDER")
@@ -60,7 +70,6 @@ def create_app():
     api.add_resource(MemberValidateRoute, "/api/member/validate")
     api.add_resource(MyRoom, "/api/member/rooms")
 
-
     CORS(app)
 
     sio.init_app(app, cors_allowed_origins="*")
@@ -76,12 +85,13 @@ if __name__ == "__main__":
         #     host=os.getenv("RAKAMIN_HOST"), port=os.getenv("RAKAMIN_PORT"), debug=True
         # )
         sio.run(
-            app, host=os.getenv("RAKAMIN_HOST"), port=os.getenv("RAKAMIN_PORT"), debug=True
+            app,
+            host=os.getenv("RAKAMIN_HOST"),
+            port=os.getenv("RAKAMIN_PORT"),
+            debug=True,
         )
     else:
         # serve(
         #     app, host=os.getenv("RAKAMIN_HOST"), port=os.getenv("RAKAMIN_PORT")
         # )
-        sio.run(
-            app, host=os.getenv("RAKAMIN_HOST"), port=os.getenv("RAKAMIN_PORT")
-        )
+        sio.run(app, host=os.getenv("RAKAMIN_HOST"), port=os.getenv("RAKAMIN_PORT"))

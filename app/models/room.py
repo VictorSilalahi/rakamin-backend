@@ -1,6 +1,7 @@
 from ..utils.dbo import db
 from sqlalchemy.sql import func
 
+
 class Room(db.Model):
     __tablename__ = "troom"
     room_id = db.Column(db.Integer, primary_key=True)
@@ -11,8 +12,4 @@ class Room(db.Model):
         self.room_name = room_name
 
     def json(self):
-        return {
-            "room_id": self.room_id,
-            "room_name": self.room_name
-        }
-
+        return {"room_id": self.room_id, "room_name": self.room_name}

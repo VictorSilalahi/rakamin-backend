@@ -6,26 +6,25 @@ from werkzeug.security import generate_password_hash
 
 
 class MembersRoute(Resource):
-    
     def get(self):
         members = db.session.query(Member).all()
 
-        return {"msg":"ok", 'data':list(x.json() for x in members)}, 200
+        return {"msg": "ok", "data": list(x.json() for x in members)}, 200
 
     def post(self):
-        email = request.form['email']
+        email = request.form["email"]
 
         member = db.session.query(Member).filter_by(email=email).first()
         if member:
             return {"msg": "error", "data": "this email has been registered!"}, 400
 
-        username = request.form['username']
-        member_pwd = generate_password_hash(request.form['password'])
+        username = request.form["username"]
+        member_pwd = generate_password_hash(request.form["password"])
         new_member = Member(username=username, email=email, password=member_pwd)
         db.session.add(new_member)
         db.session.commit()
-        
-        return {"msg":"ok", "data":"new member has been created!" }, 201
+
+        return {"msg": "ok", "data": "new member has been created!"}, 201
 
     def put(self):
         pass

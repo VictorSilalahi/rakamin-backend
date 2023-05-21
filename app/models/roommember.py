@@ -13,9 +13,4 @@ class RoomMember(db.Model):
         self.member_id = member_id
 
     def json(self):
-        return {
-            "room_id": self.room_id,
-            "member_id": self.member_id
-        }
-
-
+        return {"room_id": self.room_id, "member_id": self.member_id}

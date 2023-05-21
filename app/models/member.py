@@ -2,6 +2,7 @@ from ..utils.dbo import db
 from uuid import uuid4
 from sqlalchemy.sql import func
 
+
 class Member(db.Model):
     __tablename__ = "tmember"
     member_id = db.Column(db.Integer, primary_key=True)
@@ -20,10 +21,9 @@ class Member(db.Model):
     def json(self):
         return {
             "member_id": self.member_id,
-            "pub_id": self.pub_id, 
-            "username": self.username, 
+            "pub_id": self.pub_id,
+            "username": self.username,
             "email": self.email,
             "created_at": self.created_at.strftime("%m-%d-%Y"),
-            "member_type": self.member_type
+            "member_type": self.member_type,
         }
-

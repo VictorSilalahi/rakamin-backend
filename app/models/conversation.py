@@ -2,6 +2,7 @@ from ..utils.dbo import db
 from datetime import datetime
 from sqlalchemy.sql import func
 
+
 class Conversation(db.Model):
     __tablename__ = "tconversation"
     conversation_id = db.Column(db.Integer, primary_key=True)
@@ -16,9 +17,4 @@ class Conversation(db.Model):
         self.message = message
 
     def json(self):
-        return {
-            "room_id": self.room_id,
-            "member_id": self.member_id
-        }
-
-
+        return {"room_id": self.room_id, "member_id": self.member_id}
