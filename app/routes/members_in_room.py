@@ -17,13 +17,6 @@ class MembersInRoom(Resource):
 
     @jwt_required()
     def post(self):
-        # room_name = request.form['room_name']
-
-        # new_room = Room(room_name=room_name)
-        # db.session.add(new_room)
-        # db.session.commit()
-        
-        # return {"msg":"ok", "data":"new room has been created!"}, 200
         pass
         
 
@@ -33,12 +26,5 @@ class MembersInRoom(Resource):
     
     @jwt_required()
     def delete(self):
-        # room_id = request.form['room_id']
-
-        # room_to_delete = db.session.query(Room).filter_by(room_id=room_id).first()
-        # db.session.delete(room_to_delete)
-        # db.session.commit()
-        
-        # return {"msg":"ok", "data":"room with id={0} has been deleted!".format(room_id) }, 200
         pass
 
