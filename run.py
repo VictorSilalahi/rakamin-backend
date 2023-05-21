@@ -41,6 +41,7 @@ def create_app():
     # from app.models.member import Member
     # from app.models.room import Room
     # from app.models.roommember import RoomMember
+    # from app.models.conversation import Conversation
 
     dbo.init_app(app)
     m.init_app(app, dbo.db)

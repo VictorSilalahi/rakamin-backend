@@ -21,7 +21,6 @@ class MembersRoute(Resource):
 
         username = request.form['username']
         member_pwd = generate_password_hash(request.form['password'])
-        print(member_pwd)
         new_member = Member(username=username, email=email, password=member_pwd)
         db.session.add(new_member)
         db.session.commit()

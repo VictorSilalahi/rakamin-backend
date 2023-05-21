@@ -1,6 +1,6 @@
 from ..utils.dbo import db
 from uuid import uuid4
-from datetime import datetime
+from sqlalchemy.sql import func
 
 class Member(db.Model):
     __tablename__ = "tmember"
@@ -10,7 +10,7 @@ class Member(db.Model):
     email = db.Column(db.String(50))
     password = db.Column(db.String(200))
     member_type = db.Column(db.String, default="Reguler")
-    created_at = db.Column(db.DateTime, default=datetime.now())
+    created_at = db.Column(db.DateTime, default=func.now())
 
     def __init__(self, username, email, password):
         self.username = username

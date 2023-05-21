@@ -1,4 +1,10 @@
-from flask_socketio import emit, join_room, leave_room, send
+from flask_socketio import emit, join_room, leave_room
+
+from ..models.conversation import Conversation
+from ..models.member import Member
+from ..models.room import Room
+
+from ..utils.dbo import db
 
 from run import sio
 
@@ -27,7 +33,18 @@ def join_room_event(data):
 def handle_send_message_event(data):
     print("clint has sent a message to the room.")
     emit("receive_message", data, room=data["room_name"])
+
+    room_name = data["room_name"]
+    username = data["username"]
+    message = data["message"]
+
     # save conversation to database
+    room = db.session.query(Room).filter_by(room_name=room_name).first()
+    member = db.session.query(Member).filter_by(username=username).first()
+
+    new_conversation = Conversation(room_id=room.room_id, member_id=member.member_id, message=message)
+    db.session.add(new_conversation)
+    db.session.commit()
 
 
 @sio.on('left_room')
@@ -35,6 +52,7 @@ def handle_left_room_event(data):
     print("a client has left the room "+data["room_name"])
     leave_room(data["room_name"])
     emit('has_left', {"room_name": data["room_name"], "message": data["username"] + " has left the room.", "username": data["username"]}, room=data["room_name"])
+
 
 @sio.on("disconnect")
 def disconnect():
