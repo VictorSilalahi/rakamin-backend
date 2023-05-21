@@ -2,31 +2,40 @@ from flask_socketio import emit, join_room, leave_room, send
 
 from run import sio
 # from run import app
+sios = []
 
 @sio.on("connect")
 def new_connection(data):
     print("new connection has established!")
 
+
 @sio.on('join_room')
 def join_room_event(data):
-    join_room(data["room_id"])
+    rooms = data["room"]
+    username = data["username"]
+    member_id = data["member_id"]
+    for r in rooms:
+        join_room(r)
+        print(username + " has joined in room:"+r)
+        emit("join_room_announcement", {
+            "member_id": member_id,
+            "username": username,
+            "room_name":r
+        }, room=r)
 
 
-@sio.on('text')
-def text(message):
-    """Sent by a client when the user entered a new message.
-    The message is sent to all people in the room."""
-    # room = session.get('room')
-    # emit('message', {'msg': session.get('name') + ':' + message['msg']}, room=room)
+@sio.on('send_message')
+def handle_send_message_event(data):
+    print("clint has sent a message to the room.")
+    emit("receive_message", data, room=data["room_name"])
+    # save conversation to database
 
 
-@sio.on('left')
-def left(message):
-    """Sent by clients when they leave a room.
-    A status message is broadcast to all people in the room."""
-    # room = session.get('room')
-    # leave_room(room)
-    # emit('status', {'msg': session.get('name') + ' has left the room.'}, room=room)
+@sio.on('left_room')
+def handle_left_room_event(data):
+    print("a client has left the room "+data["room_name"])
+    leave_room(data["room_name"])
+    emit('has_left', {"room_name": data["room_name"], "message": data["username"] + " has left the room.", "username": data["username"]}, room=data["room_name"])
 
 @sio.on("disconnect")
 def disconnect():
